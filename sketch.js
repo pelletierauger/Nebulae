@@ -8,7 +8,7 @@ let socket, cnvs, ctx, canvasDOM;
 let fileName = "./frames/sketch";
 let maxFrames = 20;
 let gl, currentProgram;
-let drawCount = 0;
+let drawCount = 28050;
 let field = [];
 let makeField;
 let reached, unreached;
@@ -233,11 +233,11 @@ draw = function() {
     drawAlligatorQuiet(currentProgram);
     // draw3DDots(currentProgram);
     drawPointillism(currentProgram);
-    // currentProgram = getProgram("rounded-square");
-    // time = gl.getUniformLocation(currentProgram, "time"); 
-    // disturb = gl.getUniformLocation(currentProgram, "disturb"); 
-    // gl.useProgram(currentProgram);
-    // drawTerminal(currentProgram);
+    currentProgram = getProgram("rounded-square");
+    time = gl.getUniformLocation(currentProgram, "time"); 
+    disturb = gl.getUniformLocation(currentProgram, "disturb"); 
+    gl.useProgram(currentProgram);
+    drawTerminal(currentProgram);
     // printTexture();
     if (exporting && frameCount < maxFrames) {
         frameExport();
