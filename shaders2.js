@@ -524,3 +524,161 @@ pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }
+
+if (true) {
+
+pointillism.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float i;
+    ${matrixTransforms}
+    void main(void) {
+        i = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
+        gl_PointSize = 25.0;
+    }
+    // endGLSL
+`;
+pointillism.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float i;
+    float rand(vec2 co){
+        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
+    }
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float distSquared = dot(pos, pos);
+        float alpha = smoothstep(0.005, 0.0, distSquared);
+        float rando = rand(pos);
+        gl_FragColor = vec4(
+            1.0,
+            0.2 - distSquared, 
+            alpha,
+            (1. - distSquared * 3.0 - (rando * 0.1)) * 0.0625 + alpha * 0.8
+        );
+        gl_FragColor.a *= 0.25;
+        // gl_FragColor.a *= sin(i*0.5e-4)*0.5+0.5;
+        // gl_FragColor = mix(gl_FragColor, vec4(1.0), 0.5);
+    }
+    // endGLSL
+`;
+pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
+pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
+pointillism.init();
+
+}
+
+if (true) {
+
+pointillism.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float i;
+    ${matrixTransforms}
+    ${mapFunction}
+    void main(void) {
+        i = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        // pos = zRotate(time * 1e-3) * pos;
+        // pos.x += cos(time * 0.25e-1) * i * 2.25e-6;
+        // pos.y += sin(time * 0.25e-1) * i * 2.25e-6;
+        pos.x *= 16./9.;
+        gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
+        gl_PointSize = 25.0;
+        // gl_PointSize = map(i, 0., 60000., 25., 40.);
+    }
+    // endGLSL
+`;
+pointillism.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float i;
+    ${mapFunction}
+    float rand(vec2 co){
+        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
+    }
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float distSquared = dot(pos, pos);
+        float alpha = smoothstep(0.005, 0.0, distSquared);
+        float rando = rand(pos);
+        gl_FragColor = vec4(
+            1.0,
+            0.2 - distSquared, 
+            alpha,
+            (1. - distSquared * 3.0 - (rando * 0.1)) * 0.0625 + alpha * 0.8
+        );
+        gl_FragColor.a *= 0.25;
+        // gl_FragColor.a *= map(i, 0., 60000., 1., 4.);
+        // gl_FragColor.a *= sin(i*0.5e-4)*0.5+0.5;
+        // gl_FragColor = mix(gl_FragColor, vec4(1.0), 0.5);
+    }
+    // endGLSL
+`;
+pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
+pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
+pointillism.init();
+
+}
+
+
+if (false) {
+
+pointillism.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float i;
+    ${matrixTransforms}
+    ${mapFunction}
+    void main(void) {
+        i = coordinates.z;
+        vec4 pos = vec4(coordinates.xyz, 1.0);
+        // pos = zRotate(time * 1e-3) * pos;
+        // pos.x += cos(time * 0.25e-1) * i * 2.25e-6;
+        // pos.y += sin(time * 0.25e-1) * i * 2.25e-6;
+        pos.x *= 16./9.;
+        gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
+        gl_PointSize = 25.0;
+        // gl_PointSize = map(i, 0., 60000., 25., 40.);
+    }
+    // endGLSL
+`;
+pointillism.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float i;
+    ${mapFunction}
+    float rand(vec2 co){
+        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
+    }
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float distSquared = dot(pos, pos);
+        float alpha = smoothstep(0.005, 0.0, distSquared);
+        float rando = rand(pos);
+        gl_FragColor = vec4(
+            1.0,
+            0.2 - distSquared, 
+            alpha,
+            (1. - distSquared * 3.0 - (rando * 0.1)) * 0.0625 + alpha * 0.8
+        );
+        gl_FragColor.a *= 0.25;
+        // gl_FragColor.a *= map(i, 0., 60000., 1., 4.);
+        // gl_FragColor.a *= sin(i*0.5e-4)*0.5+0.5;
+        // gl_FragColor = mix(gl_FragColor, vec4(1.0), 0.5);
+    }
+    // endGLSL
+`;
+pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
+pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
+pointillism.init();
+
+}
