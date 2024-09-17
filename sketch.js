@@ -230,10 +230,10 @@ draw = function() {
     // currentProgram = getProgram("pointillism");
     currentProgram = pointillism.program;
     gl.useProgram(currentProgram);
-    drawAlligatorQuiet(currentProgram);
+    // drawAlligatorQuiet(currentProgram);
     // draw3DDots(currentProgram);
     // drawPointillism(currentProgram);
-    drawVertexID(mysticalPond.program, 147456 * 0.75);
+    drawVertexID(mysticalPond.program, 90000);
     currentProgram = getProgram("rounded-square");
     time = gl.getUniformLocation(currentProgram, "time"); 
     disturb = gl.getUniformLocation(currentProgram, "disturb"); 
