@@ -14,14 +14,14 @@ ShaderProgram.prototype.init = function() {
         // Create a vertex shader object
         var vertShader = gl.createShader(gl.VERTEX_SHADER);
         // Attach vertex shader source code
-        gl.shaderSource(vertShader, this.vertText);
+        gl.shaderSource(vertShader, this.vertText.replace(/[^\x00-\x7F]/g, ""));
         // Compile the vertex shader
         gl.compileShader(vertShader);
         // fragment shader source code
         // Create fragment shader object
         var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
         // Attach fragment shader source code
-        gl.shaderSource(fragShader, this.fragText);
+        gl.shaderSource(fragShader, this.fragText.replace(/[^\x00-\x7F]/g, ""));
         // Compile the fragmentt shader
         gl.compileShader(fragShader);
         // Create a shader program object to store

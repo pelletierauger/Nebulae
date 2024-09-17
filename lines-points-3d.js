@@ -8,6 +8,12 @@ let vertices = [];
 
 let dotPositions = [];
 
+let fvertices = [];
+for (let i = 0; i < 1000000; i++) {
+    fvertices.push(i);
+}
+fvertices = new Float32Array(fvertices);
+
 reset3DLines = function() {
     indices = [];
     indices2 = [];
@@ -205,4 +211,16 @@ function randomPointOnSphere(x0 = 0, y0 = 0, z0 = 0, radius = 1) {
    return [x0 + radius * r * Math.sin(long),
            y0 + radius * y,
            z0 + radius * r * Math.cos(long)];
+};
+
+drawVertexID = function(selectedProgram, amountOfDots) {
+    gl.useProgram(selectedProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, dotsVBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, fvertices, gl.STATIC_DRAW);
+    var coord = gl.getAttribLocation(selectedProgram, "vertexID");
+    gl.vertexAttribPointer(coord, 1, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(coord);
+    var time = gl.getUniformLocation(selectedProgram, "time");
+    gl.uniform1f(time, drawCount);
+    gl.drawArrays(gl.POINTS, 0, amountOfDots);
 };
