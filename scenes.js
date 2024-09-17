@@ -229,4 +229,145 @@ drawAlligatorQuiet = function() {
     }
 };
 
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-3;
+    let x = 0, y = 0, fx = 0, a = 0;
+    for (let i = 0; i < 75000; i += 1) {
+        a = Math.sin(i * 1e-1) * 2.05;
+        x = Math.cos(fx * 3 + t * 1e1) * a;
+        y = Math.sin(fx * 3 + t * 1e1) * a;
+        fx = x;
+        dotPositions.push(x * 0.25, y * 1, i);
+    }
+};
+
+// Simple chaotic spiral
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-1;
+    let x = 1, y = 1, a = 0, fx = 1, fy = 1;
+    for (let i = 0; i < 75000; i += 1) {
+        a = Math.tan(i * 1e2) + i * 1e-5 + t * 0.1;
+        x = Math.sin(a) * i * 0.5e-4;
+        y = Math.cos(a) * i * 1.5e-4;
+        x += Math.sin(fx * 4 + fy * 2) * 0.1;
+        y += Math.sin(fy * 4 + fy * 2) * 0.1;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.18, y * 0.18, 0.0);
+    }
+};
+
+dotSet = false;
+drawAlligatorQuiet = function() {
+    // if (!dotSet) {
+    dotPositions = [];
+    let t = drawCount * 1e-1;
+    let x = 0, y = 0, z = 0;
+    let newX = 0, newY = 0, newZ = 0;
+    let w = 0, newW = 0;
+    let a = -0.6, b = 1, c = 0.1, d = 1;
+    for (let i = 0; i < 70000; i++) {
+        newX = Math.sin(a * x) + Math.tan(b * x) - Math.tan(z);
+        newY = Math.sin(c * x) + Math.sin(d * z);
+        newW = Math.sin(c * w) + Math.cos(d * z);
+        // newZ = z + 0.1;
+        x = newX;
+        y = newY;;
+        w = newW;
+        z = z + 0.1;
+        // newX = lerp(newX, Math.cos(t*1e3*i)*i*1e-5, 0.5);
+        // newY = lerp(newY, Math.sin(t*1e3*i)*i*1e-5, 0.5);
+        dotPositions.push(newX * 0.1, newY * 1, w);
+    }
+        dotSet = true;
+    // }
+};
+
+}
+
+if (false) {
+
+
+// 90e07de7656d5c1efa8c8944d87adcfbaf7de2ed
+// Another big gorgeous spiral
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-3 + 870;
+    let x = 1, y = 1, fx = 1, fy = 1;
+    for (let i = 0; i < 87000; i += 1) {
+        x = Math.sin(Math.tan(i * 25 - t)) * i * 0.5e-4;
+        y = Math.cos(Math.tan(i * 25 - t)) * i * 1.5e-4;
+        x += Math.sin(fx * 3) * 0.15;
+        y += Math.sin(fy * 3) * 0.15;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.15, y * 0.15, 0.0);
+    }
+};
+
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 5e-2 + 870;
+    let x = 1, y = 1, fx = 1, fy = 1;
+    for (let i = 0; i < 87000; i += 1) {
+        x = Math.sin(Math.tan(i * 0.001)+Math.sin(fx+t)) * i * 0.5e-4;
+        y = Math.cos(Math.tan(i * 0.001)+Math.sin(fx+t)) * i * 1.5e-4;
+        x += Math.cos(Math.cos(fy+t) * 3) * 0.1;
+        y += Math.sin(Math.sin(fy+t) * 3) * 0.1;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.15, y * 0.15, 0.0);
+    }
+};
+
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-3 + 870;
+    let x = 1, y = 1, fx = 1, fy = 1;
+    for (let i = 0; i < 87000; i += 1) {
+        x = Math.sin(Math.tan(i * 160)-t*1e1) * i * 0.5e-4;
+        y = Math.cos(Math.tan(i * 160)-t*1e1) * i * 1.5e-4;
+        x += Math.sin(fx * 3) * 0.15;
+        y += Math.sin(fy * 3) * 0.15;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.15, y * 0.15, i);
+    }
+};
+
+
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-1;
+    let rings = 36;
+    let f = 0;
+    let x = 0, y = 0;
+    for (let i = 0; i < rings; i++) {
+        for (let j = 0; j < 2200; j++) {
+            x = lerp(x, Math.cos(j) * j * 3e-2, Math.cos(Math.tan(f)+t)*0.5+0.5);
+            y = lerp(y, Math.sin(j) * j * 3e-2, Math.sin(Math.tan(f)+t)*0.5+0.5);
+            f+=0.01;
+            dotPositions.push(x * (9/16)* (9/16) * 0.1,y * 0.1,1);
+        }
+    }
+};
+
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-1;
+    let rings = 36;
+    let f = 0;
+    let x = 0, y = 0;
+    for (let i = 0; i < rings; i++) {
+        for (let j = 0; j < 2200; j++) {
+            x = lerp(x, Math.cos(j) * j * 3e-2, (Math.cos(Math.tan(f)+t)*0.5+0.5)*0.1);
+            y = lerp(y, Math.sin(j) * j * 3e-2, (Math.sin(Math.tan(f)+t)*0.5+0.5)*0.1);
+            f+=0.01;
+            dotPositions.push(x * (9/16)* (9/16) * 0.4,y * 0.4,1);
+        }
+    }
+};
+
 }
