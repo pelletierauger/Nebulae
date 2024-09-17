@@ -325,9 +325,7 @@ pointillism.vertText = `
 pointillism.fragText = `
     // beginGLSL
     precision mediump float;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         // vec2 uv = gl_PointCoord.xy / vec2(1600, 1600);
         vec2 uv = gl_FragCoord.xy / vec2(2560, 1600);
@@ -356,8 +354,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 pointillism.vertText = `
@@ -383,9 +379,7 @@ pointillism.vertText = `
 pointillism.fragText = `
     // beginGLSL
     precision mediump float;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         // vec2 uv = gl_PointCoord.xy / vec2(1600, 1600);
         vec2 uv = gl_FragCoord.xy / vec2(2560, 1600);
@@ -414,8 +408,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 pointillism.vertText = `
@@ -444,9 +436,7 @@ pointillism.fragText = `
     // beginGLSL
     precision mediump float;
     varying float i;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = (gl_PointCoord - vec2(0.5, 0.5)) * 0.9;
         float dist_squared = dot(pos, pos);
@@ -463,8 +453,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 if (true) {
@@ -496,9 +484,7 @@ pointillism.fragText = `
     // beginGLSL
     precision mediump float;
     varying float i;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float dist_squared = dot(pos, pos);
@@ -519,8 +505,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }
@@ -546,9 +530,7 @@ pointillism.fragText = `
     // beginGLSL
     precision mediump float;
     varying float i;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float distSquared = dot(pos, pos);
@@ -566,8 +548,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }
@@ -600,9 +580,7 @@ pointillism.fragText = `
     precision mediump float;
     varying float i;
     ${mapFunction}
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float distSquared = dot(pos, pos);
@@ -621,8 +599,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }
@@ -659,9 +635,7 @@ pointillism.fragText = `
     precision mediump float;
     varying float i;
     ${mapFunction}
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float distSquared = dot(pos, pos);
@@ -680,12 +654,9 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }
-
 
 if (false) {
 
@@ -719,9 +690,7 @@ pointillism.fragText = `
     precision mediump float;
     varying float i;
     ${mapFunction}
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float distSquared = dot(pos, pos);
@@ -740,8 +709,6 @@ pointillism.fragText = `
     }
     // endGLSL
 `;
-pointillism.vertText = pointillism.vertText.replace(/[^\x00-\x7F]/g, "");
-pointillism.fragText = pointillism.fragText.replace(/[^\x00-\x7F]/g, "");
 pointillism.init();
 
 }

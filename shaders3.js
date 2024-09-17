@@ -5,9 +5,7 @@ mysticalPond.vertText = `
     // beginGLSL
     attribute float vertexID;
     uniform float time;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         float t = time * 2e-2;
         float id = vertexID;
@@ -32,9 +30,7 @@ mysticalPond.vertText = `
 mysticalPond.fragText = `
     // beginGLSL
     precision mediump float;
-    float rand(vec2 co){
-        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
-    }
+    ${rand}
     void main(void) {
         vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
         float distSquared = dot(pos, pos);
