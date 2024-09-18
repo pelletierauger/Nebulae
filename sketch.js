@@ -233,7 +233,9 @@ draw = function() {
     // drawAlligatorQuiet(currentProgram);
     // draw3DDots(currentProgram);
     // drawPointillism(currentProgram);
-    drawVertexID(mysticalPond.program, 90000);
+    // drawVertexID(mysticalPond.program, 90000);
+    // drawVertexID(witchyTerrain.program, 442368);
+    drawVertexID(witchyTerrain.program, 200000);
     currentProgram = getProgram("rounded-square");
     time = gl.getUniformLocation(currentProgram, "time"); 
     disturb = gl.getUniformLocation(currentProgram, "disturb"); 
