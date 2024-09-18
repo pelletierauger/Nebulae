@@ -223,11 +223,7 @@ function setup() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-                    // gl.clearStencil(0);
-                // gl.clear(gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
-                // gl.disable(gl.STENCIL_TEST);
     // currentProgram = getProgram("smooth-dots-3D");
-    // currentProgram = getProgram("pointillism");
     currentProgram = pointillism.program;
     gl.useProgram(currentProgram);
     // drawAlligatorQuiet(currentProgram);
