@@ -5,10 +5,10 @@ let gr;
 let mode = 0;
 let keysActive = true;
 let socket, cnvs, ctx, canvasDOM;
-let fileName = "./frames/sketch";
+let fileName = "/Volumes/Volumina/frames/neon-summer/nebulae-03/nebulae-03";
 let maxFrames = 20;
 let gl, currentProgram;
-let drawCount = 28050;
+let drawCount = 27000;
 let field = [];
 let makeField;
 let reached, unreached;
@@ -23,7 +23,7 @@ let smouse = [0, 0];
 let resolutionScalar = 0.5;
 let resolutionBG;
 let texture, texture2, framebuf, framebuf2;
-let batchExport = false;
+// let batchExport = false;
 // ------------------------------------------------------------
 // Grimoire Animate
 // ------------------------------------------------------------
@@ -108,7 +108,7 @@ function setup() {
     gl = cnvs.getContext('webgl', {antialias: false, depth: false});
     // gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
 
-    // canvasDOM = document.getElementById('my_Canvas');
+    canvasDOM = document.getElementById('my_Canvas');
     // canvasDOM = document.getElementById('defaultCanvas0');
     // gl = canvasDOM.getContext('webgl');
     // gl = cnvs.drawingContext;
@@ -218,6 +218,22 @@ function setup() {
             }   
         }, false);
     }, 1);
+    if (batchExport) {
+        exportCount = batchMin;
+        exporting = true;
+        // redraw();
+        // songPlay = false;
+        noLoop();
+        looping = false;
+    }
+    socket.on('getNextImage', function(data) {
+        if (exportCount <= batchMax) {
+            // redraw();
+            window.setTimeout(function() {
+                redraw();
+            }, 3);
+        }
+    });
 }
 
 
@@ -226,19 +242,19 @@ draw = function() {
     // currentProgram = getProgram("smooth-dots-3D");
     currentProgram = pointillism.program;
     gl.useProgram(currentProgram);
-    // drawAlligatorQuiet(currentProgram);
+    drawAlligatorQuiet(currentProgram);
     // draw3DDots(currentProgram);
-    // drawPointillism(currentProgram);
+    drawPointillism(currentProgram);
     // drawVertexID(mysticalPond.program, 90000);
     // drawVertexID(witchyTerrain.program, 442368);
-    drawVertexID(witchyTerrain.program, 200000);
+    // drawVertexID(witchyTerrain.program, 200000);
     currentProgram = getProgram("rounded-square");
     time = gl.getUniformLocation(currentProgram, "time"); 
-    disturb = gl.getUniformLocation(currentProgram, "disturb"); 
-    gl.useProgram(currentProgram);
-    drawTerminal(currentProgram);
+    // disturb = gl.getUniformLocation(currentProgram, "disturb"); 
+    // gl.useProgram(currentProgram);
+    // drawTerminal(currentProgram);
     // printTexture();
-    if (exporting && frameCount < maxFrames) {
+    if (exporting && exportCount < batchMax) {
         frameExport();
     }
     drawCount++;

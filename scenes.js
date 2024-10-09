@@ -82,6 +82,8 @@ drawAlligatorQuiet = function() {
     }
 };
 
+if (false) {
+
 drawAlligatorQuiet = function() {
     dotPositions = [];
     let t = ((drawCount * 0.001) + 1e3) + 10;
@@ -204,8 +206,6 @@ drawAlligatorQuiet = function() {
     }
 };
 
-if (false) {
-
 drawAlligatorQuiet = function() {
     dotPositions = [];
     let t = drawCount * 0.00125 * 0.00005 * 1.5;
@@ -284,11 +284,6 @@ drawAlligatorQuiet = function() {
         dotSet = true;
     // }
 };
-
-}
-
-if (false) {
-
 
 // 90e07de7656d5c1efa8c8944d87adcfbaf7de2ed
 // Another big gorgeous spiral
@@ -370,4 +365,61 @@ drawAlligatorQuiet = function() {
     }
 };
 
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 2e-3;
+    let x = 0, y = 0, fx = 0, fy = 0, a = 0;
+    for (let i = 0; i < 85000; i += 1) {
+        a = Math.tan(i * 24.9) - Math.sin(i * 1e-4 + x * 2e-1 + t * 10);
+        x = fx + Math.sin(a) * i * 2e-5;
+        y = fy + Math.cos(a) * i * 5e-5;
+        fx += Math.tan(x * -0.115) * 6.4;
+        fy += Math.tan(y * -0.115) * 6.4;
+        // x += Math.cos(t * -0.5e2 * 0.25) * i * 0.125e-4 * 2 * 0.25;
+        // y += Math.sin(t * -0.5e2 * 0.25) * i * 0.125e-4 * 3 * 0.25;
+        let s = 0.7;
+        dotPositions.push((x) * 0.9 * 2 * s * (9/16), (y) * 0.9 * 1.5 * s,1);
+    }
+};
+
 }
+
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 0.00125 * 0.00005 * 1.5;
+    let x = 0, y = 0, z = 0, fx = 0, fy = 0;
+    let a = 0, b = 0, c = 0;
+    for (let i = 0; i < 80000; i += 1) {
+        let ax = Math.pow(Math.cos(i * 1e-4), -1);
+        let aax = 0.5 - ax;
+        a = Math.tan(i * 2.9);
+        b = a * aax * Math.sin(i * 1e-10 + ax * 0.35);
+        x = Math.sin(b + t * 1e5) * i * 0.5e-4;
+        y = Math.cos(b + t * 1e5) * i * 1.5e-4;
+        z = Math.cos(t * 1e5) * i * 1.5e-5;
+        c = Math.cos(fy * 0.05);
+        x *= fx * 0.05 + c;
+        y *= fy * 0.05 + c;
+        z *= fy;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.18, y * 0.18, z);
+    }
+};
+
+// Simple chaotic spiral
+drawAlligatorQuiet = function() {
+    dotPositions = [];
+    let t = drawCount * 1e-1;
+    let x = 1, y = 1, a = 0, fx = 1, fy = 1;
+    for (let i = 0; i < 75000; i += 1) {
+        a = Math.tan(i * 1e2) + i * 1e-5 + t * 0.1;
+        x = Math.sin(a) * i * 0.5e-4;
+        y = Math.cos(a) * i * 1.5e-4;
+        x += Math.sin(fx * 4 + fy * 2) * 0.1;
+        y += Math.sin(fy * 4 + fy * 2) * 0.1;
+        fx = x;
+        fy = y;
+        dotPositions.push(x * 0.18, y * 0.18, 0.0);
+    }
+};
