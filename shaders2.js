@@ -603,6 +603,57 @@ pointillism.init();
 
 }
 
+// ------------------------------------------------------------
+// With alpha
+// ------------------------------------------------------------
+
+if (true) {
+
+pointillism.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float alpha;
+    ${matrixTransforms}
+    ${mapFunction}
+    void main(void) {
+        alpha = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        pos.x *= 16./9.;
+        gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
+        gl_PointSize = 25.0;
+    }
+    // endGLSL
+`;
+pointillism.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float alpha;
+    ${mapFunction}
+    ${rand}
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float distSquared = dot(pos, pos);
+        float distSquaredSmooth = smoothstep(0.005, 0.0, distSquared);
+        float rando = rand(pos);
+        gl_FragColor = vec4(
+            1.0,
+            0.2 - distSquared, 
+            distSquaredSmooth,
+            (1. - distSquared * 3.0 - (rando * 0.1)) * 0.0625 + distSquaredSmooth * 0.8
+        );
+        gl_FragColor.a *= 0.25 * alpha;
+        // gl_FragColor.a *= map(i, 0., 60000., 1., 4.);
+        // gl_FragColor.a *= sin(i*0.5e-4)*0.5+0.5;
+        // gl_FragColor = mix(gl_FragColor, vec4(1.0), 0.5);
+    }
+    // endGLSL
+`;
+pointillism.init();
+
+}
+
 
 if (false) {
 

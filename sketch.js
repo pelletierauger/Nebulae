@@ -127,7 +127,7 @@ function setup() {
     dots_buffer = gl.createBuffer();
     vertex_bufferA = gl.createBuffer();
     vertex_bufferB = gl.createBuffer();
-
+    vbuffer = gl.createBuffer();
 
     shadersReadyToInitiate = true;
     initializeShaders();
@@ -239,26 +239,56 @@ function setup() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    bindFrameBuffer(texture, framebuf);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     // currentProgram = getProgram("smooth-dots-3D");
-    currentProgram = pointillism.program;
-    gl.useProgram(currentProgram);
-    drawAlligatorQuiet(currentProgram);
+    // currentProgram = pointillism.program;
+    // gl.useProgram(currentProgram);
+    // drawAlligatorQuiet(currentProgram);
     // draw3DDots(currentProgram);
-    drawPointillism(currentProgram);
+    // drawPointillism(currentProgram);
+    divineSpiral.update(drawCount);
+    divineSpiral.display();
+    
+    bindFrameBuffer(texture2, framebuf);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    
+    simpleChaoticSpiral.update(drawCount);
+    simpleChaoticSpiral.display();
+    // divineSpiral.xFade(drawCount, simpleChaoticSpiral, drawCount, Math.sin(drawCount*1e-2)*0.5+0.5);
     // drawVertexID(mysticalPond.program, 90000);
     // drawVertexID(witchyTerrain.program, 442368);
     // drawVertexID(witchyTerrain.program, 200000);
-    currentProgram = getProgram("rounded-square");
-    time = gl.getUniformLocation(currentProgram, "time"); 
-    // disturb = gl.getUniformLocation(currentProgram, "disturb"); 
-    // gl.useProgram(currentProgram);
-    // drawTerminal(currentProgram);
-    // printTexture();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    drawTexture(textureShader.program, texture);
+    drawTexture(textureShader.program, texture2, Math.sin(drawCount*1e-2)*0.5+0.5);
+    drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
     }
     drawCount++;
-}
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    divineSpiral.xFade(drawCount, simpleChaoticSpiral, drawCount, Math.sin(drawCount*1e-2)*0.5+0.5);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    divineSpiral.update(drawCount);
+    divineSpiral.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
 
 
 receiveOSC = function(data) {

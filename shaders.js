@@ -399,7 +399,7 @@ if (shadersReadyToInitiate) {
     gl.useProgram(currentProgram);
 }
 
-
+if (false) {
 let textureShader = new ShaderProgram("textu");
 
 // Bloody dawn over the mountains
@@ -440,6 +440,7 @@ textureShader.vertText = textureShader.vertText.replace(/[^\x00-\x7F]/g, "");
 textureShader.fragText = textureShader.fragText.replace(/[^\x00-\x7F]/g, "");
 textureShader.init();
 
+}
 
 if (false) {
 

@@ -178,19 +178,17 @@ drawPointillism = function(selectedProgram) {
     gl.drawArrays(gl.POINTS, 0, dotPositions.length/3);
 };
 
-drawPointillism = function(selectedProgram) {
-    // console.log(selectedProgram);
+drawPointillism = function(v) {
+    let currentProgram = pointillism.program;
+    gl.useProgram(currentProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, dots_buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(dotPositions), gl.STATIC_DRAW);
-    // Get the attribute location
-    var coord = gl.getAttribLocation(selectedProgram, "coordinates");
-    // Point an attribute to the currently bound VBO
+    gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+    var coord = gl.getAttribLocation(currentProgram, "coordinates");
     gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0);
-    // Enable the attribute
     gl.enableVertexAttribArray(coord);
-    let timeUniformLocation = gl.getUniformLocation(selectedProgram, "time");
+    let timeUniformLocation = gl.getUniformLocation(currentProgram, "time");
     gl.uniform1f(timeUniformLocation, drawCount);
-    gl.drawArrays(gl.POINTS, 0, dotPositions.length/3);
+    gl.drawArrays(gl.POINTS, 0, v.length / 3);
 };
 
 function randomPointInSphere() {
