@@ -191,6 +191,37 @@ drawPointillism = function(v) {
     gl.drawArrays(gl.POINTS, 0, v.length / 3);
 };
 
+drawPointillismBig = function(v) {
+    let currentProgram = pointillismBig.program;
+    gl.useProgram(currentProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, dots_buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+    var coord = gl.getAttribLocation(currentProgram, "coordinates");
+    gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(coord);
+    let timeUniformLocation = gl.getUniformLocation(currentProgram, "time");
+    gl.uniform1f(timeUniformLocation, drawCount);
+    gl.drawArrays(gl.POINTS, 0, v.length / 3);
+};
+
+
+if (false) {
+
+drawPointillismBig = function(v) {
+    let currentProgram = pointillismBig.program;
+    gl.useProgram(currentProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, dots_buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+    var coord = gl.getAttribLocation(currentProgram, "coordinates");
+    gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(coord);
+    let timeUniformLocation = gl.getUniformLocation(currentProgram, "time");
+    gl.uniform1f(timeUniformLocation, drawCount);
+    gl.drawArrays(gl.POINTS, 0, 1);
+};
+
+}
+
 function randomPointInSphere() {
     var d, x, y, z;
     do {

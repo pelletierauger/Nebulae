@@ -290,6 +290,19 @@ draw = function() {
     drawCount++;
 };
 
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    // spiraleEnvoutante.update(drawCount);
+    // spiraleEnvoutante.display();
+    aaaHaaa.update(drawCount);
+    aaaHaaa.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
 
 receiveOSC = function(data) {
     // console.log(data.args[0].value);
