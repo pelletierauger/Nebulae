@@ -294,6 +294,8 @@ draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     // spiraleEnvoutante.update(drawCount);
     // spiraleEnvoutante.display();
+    implosion7.update(drawCount);
+    implosion7.display();
     aaaHaaa.update(drawCount);
     aaaHaaa.display();
     drawTerminal(roundedSquare.program);

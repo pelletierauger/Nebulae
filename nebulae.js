@@ -110,7 +110,7 @@ aaaHaaa.update = function(count, alpha = 1) {
 };
 
 aaaHaaa.update = function(count, alpha = 1) {
-    // count *= 1e-1;
+    count += 3e3;
     
     let zoom = map(count, 0, 1000, 1, 2);
     count += 2000;
@@ -119,10 +119,35 @@ aaaHaaa.update = function(count, alpha = 1) {
         let t = i / 3000;
         let x = Math.sin(t * 1e2 * (-50 + m)) * 100 * i / 5000;
         let y = Math.cos(t * 1e2 * (-50 + m)) * Math.tan(t * 4 * m) * i * 4e-1;
-        this.vertices[i * 3] = x * 8e-3 * zoom;
-        this.vertices[i * 3 + 1] = y * 8e-3 * zoom;
-        this.vertices[i * 3 + 2] = alpha;
+        this.vertices[i * 3] = x * 2e-3 * zoom;
+        this.vertices[i * 3 + 1] = y * 2e-3 * zoom;
+        // this.vertices[i * 3 + 2] = 0.75;
+        let al = map(i, 0, this.size, 0, 1);
+        al = Math.pow(al * 2, 0.5);
+        // al = Math.pow(al * 6, 0.28);
+        this.vertices[i * 3 + 2] = al;
     }
 };
 
 aaaHaaa.displayProgram = drawPointillismBig;
+
+
+let implosion7 = new Nebula(5000, 3);
+
+implosion7.update = function(count, alpha = 1) {
+    // count *= 0.25e-1;
+    
+    let zoom = map(count, 0, 1000, 1, 2);
+    // count += 2000;
+    var m = count / 70;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 1;
+        let x = Math.pow(Math.sin(Math.sin(t + m)), 1) * Math.tan(t + m) * 0.1 * t;
+        let y = Math.pow(Math.cos(Math.cos(t + m)), 0.5) * Math.tan(t) * 120;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
+    }
+};
+
+implosion7.displayProgram = drawPointillismBig;
