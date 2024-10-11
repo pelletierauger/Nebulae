@@ -8,7 +8,7 @@ let socket, cnvs, ctx, canvasDOM;
 let fileName = "/Volumes/Volumina/frames/neon-summer/nebulae-03/nebulae-03";
 let maxFrames = 20;
 let gl, currentProgram;
-let drawCount = 27000;
+let drawCount = 0;
 let field = [];
 let makeField;
 let reached, unreached;
@@ -281,8 +281,8 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    divineSpiral.update(drawCount);
-    divineSpiral.display();
+    simpleChaoticSpiral.update(drawCount);
+    simpleChaoticSpiral.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
