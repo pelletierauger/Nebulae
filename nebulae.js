@@ -151,3 +151,40 @@ implosion7.update = function(count, alpha = 1) {
 };
 
 implosion7.displayProgram = drawPointillismBig;
+
+if (false) {
+
+implosion7.update = function(count, alpha = 1) {
+    var m = count / 70;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 1;
+        let x = Math.pow(Math.sin(Math.sin(t + m)), 1) * Math.tan(t + m) * 0.1 * t;
+        let y = Math.pow(Math.cos(Math.cos(t + m)), 4) * Math.tan(t) * 120;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
+    }
+};
+
+implosion7.setSize(25000);
+
+}
+
+let iterative001 = new Nebula(75000, 3);
+
+iterative001.update = function(count, alpha = 1) {
+    // count *= 0.25e-1;
+    let vals = [1, 1, 1.1, 1, 2, 1];
+    vals[0] = Math.sin(count * 0.0167);
+    vals[1] = Math.cos(count * 0.0167);
+    let x = 0, y = 0, z = 0;
+    var m = count / 70;
+    for (let i = 0; i < this.size; i++) {
+        let newX = Math.sin(vals[0] * x) + Math.tan(vals[1] * y) - Math.tan(vals[2] * z);
+        let newY = Math.sin(vals[3] * x) - Math.tan(vals[5] * z);
+        x = newX, y = newY, z += 0.1;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
+    }
+};
