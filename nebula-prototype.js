@@ -5,6 +5,11 @@ let Nebula = function(size, components) {
     this.displayProgram = drawPointillism;
 };
 
+Nebula.prototype.setSize = function(size) {
+    this.size = size;
+    this.vertices = new Float32Array(size * this.components);
+};
+
 Nebula.prototype.display = function(sum) {
     this.displayProgram(this.vertices);
 };
