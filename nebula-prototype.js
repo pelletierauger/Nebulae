@@ -14,6 +14,11 @@ Nebula.prototype.display = function(sum) {
     this.displayProgram(this.vertices);
 };
 
+Nebula.prototype.updateAndDisplay = function(count) {
+    this.update(count);
+    this.display();
+};
+
 Nebula.prototype.xFade = function(count, otherNebula, otherCount, mix) {
     // Draw this nebula on one texture.
     bindFrameBuffer(texture, framebuf);

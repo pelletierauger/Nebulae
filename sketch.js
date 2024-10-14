@@ -281,6 +281,16 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    tancave2.xFade(drawCount, simpleChaoticSpiral, drawCount, Math.sin(drawCount*1e-2)*0.5+0.5);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
     simpleChaoticSpiral.update(drawCount);
     simpleChaoticSpiral.display();
     drawTerminal(roundedSquare.program);
@@ -305,6 +315,37 @@ draw = function() {
     drawCount++;
 };
 
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    runXSheet(xSheet);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    tancave2.update(drawCount);
+    tancave2.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    implosion7.update(drawCount);
+    implosion7.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
 
 receiveOSC = function(data) {
     // console.log(data.args[0].value);

@@ -131,6 +131,37 @@ aaaHaaa.update = function(count, alpha = 1) {
 
 aaaHaaa.displayProgram = drawPointillismBig;
 
+let implosion5 = new Nebula(5000, 3);
+
+implosion5.update = function(count, alpha = 1) {
+    var m = -count / 70;
+    for (let i = 0; i < this.size; i++) {
+        let t = i;
+        let x = Math.pow(Math.cos(Math.cos(t + m)), 0.5) * Math.tan(t + m) * 120;
+        let y = Math.pow(Math.sin(Math.sin(t + m)), 1) * Math.tan(t + m) * 0.1 * t;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
+    }
+};
+
+implosion5.displayProgram = drawPointillismBig;
+
+let implosion6 = new Nebula(5000, 3);
+
+implosion6.update = function(count, alpha = 1) {
+    var m = -count / 70;
+    for (let i = 0; i < this.size; i++) {
+        let t = i;
+        let x = Math.pow(Math.sin(Math.sin(t + m)), 1) * Math.tan(t + m) * 0.1 * t;
+        let y = Math.pow(Math.cos(Math.cos(t * t + m)), 0.5) * Math.tan(t + m) * 120;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
+    }
+};
+
+implosion6.displayProgram = drawPointillismBig;
 
 let implosion7 = new Nebula(5000, 3);
 
@@ -151,6 +182,59 @@ implosion7.update = function(count, alpha = 1) {
 };
 
 implosion7.displayProgram = drawPointillismBig;
+
+let nouvelleGrotte = new Nebula(5000, 3);
+
+nouvelleGrotte.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    var m = Math.sin((count) / 200) / 25;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 100;
+        let x = Math.pow(Math.cos(t / 20 * (m * 5)), 100) * Math.pow(Math.sin(t / 20), 1) * 1050 - 200;
+        let y = Math.pow(Math.sin(t / 2 * (m * 5)), 5) / Math.sin(t * 10) * Math.cos(t * m * 300) * 150;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 1);
+    }
+};
+
+nouvelleGrotte.displayProgram = drawPointillismBig;
+nouvelleGrotte.setSize(1000);
+
+let tremplin7 = new Nebula(3000, 3);
+
+tremplin7.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    let m = Math.sin(count / 20);
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 2000;
+        let x = Math.tan(t * -200) / Math.cos(t * m) * Math.sin(t + m) * 200 * i / 8000;
+        let y = Math.sin(t * -100) / Math.sin(t * m) * Math.tan(t / 10) * m * i / 1;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 1);
+    }
+};
+
+tremplin7.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    let c = count * 1e-2;
+    // let m = Math.sin(count / 20);
+    // m = count * 1e-4;
+    let m = 1;
+    for (let i = 0; i < this.size; i++) {
+        let t = i * 0.0005;
+        let x = Math.tan(t * -200 + c) / Math.cos(t * m) * 200 * i * 1.25e-4;
+        let y = Math.sin(t * -100) / Math.sin(t * m) * Math.tan(t * 0.1) * m * i;
+        this.vertices[i * 3] = x * 0.5e-3 * 4;
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 0.65, 1.5);
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1.1, 0.5);
+    }
+};
+
+tremplin7.displayProgram = drawPointillismBig;
+tremplin7.setSize(3000);
 
 if (false) {
 
@@ -188,3 +272,23 @@ iterative001.update = function(count, alpha = 1) {
         this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0);
     }
 };
+
+
+let tancave2 = new Nebula(3000, 3);
+
+tancave2.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    let m = Math.sin((count) / 20000) * 1;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 10;
+        let x = Math.sin(t * (2 + m)) * Math.cos(t * (m / 4)) * 800 * i / 4000;
+        let y = Math.cos(t * (2 + m)) * Math.cos(t * (m / 4)) * 350;
+        this.vertices[i * 3] = x * 0.5e-3 * 4 * (9/16);
+        this.vertices[i * 3 + 1] = y * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 0.75, 1);
+    }
+};
+
+tancave2.displayProgram = drawPointillismBig;
+tancave2.setSize(3000);
