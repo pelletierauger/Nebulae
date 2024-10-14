@@ -1121,3 +1121,50 @@ pointillismBig.fragText = `
     // endGLSL
 `;
 pointillismBig.init();
+
+pointillismBig.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float alpha;
+    void main(void) {
+        alpha = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        pos.x *= 16./9.;
+        gl_Position = vec4(pos.x, pos.y, 0.0, 1.);
+        gl_PointSize = 125.0 * alpha;
+        // gl_PointSize = 15.0;
+    }
+    // endGLSL
+`;
+pointillismBig.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float alpha;
+    ${mapFunction}
+    ${rand}
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float rando = rand(pos);
+        float x = length(pos);
+        float smoothDist = pow(x - 1.01, 60.);
+        smoothDist = max(smoothDist, pow(x, 0.015) * -1. + 1.01);
+        float xx = (x > 0.25) ? 0.: 1.;
+        smoothDist = max(smoothDist, pow(x * 4. -1., 4.) * 0.5 * xx);
+        smoothDist = max(smoothDist, pow((x - 0.01), 0.07) * -1. + 0.94);
+        smoothDist = max(smoothDist, x * -0.1 + 0.065);
+        smoothDist = max(smoothDist, (x - 0.165) * -1.5);
+        smoothDist = max(smoothDist, (x * -10.) + 0.63);
+        smoothDist = max(smoothDist, (x * -0.9) + 0.19);
+        float dist = smoothDist;
+        if (alpha > 0.9) {
+            dist = 1. / x * 0.01;
+        }
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        dist -= rando * 0.01;
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha);
+    }
+    // endGLSL
+`;
+pointillismBig.init();
