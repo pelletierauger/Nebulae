@@ -23,6 +23,7 @@ let smouse = [0, 0];
 let resolutionScalar = 0.5;
 let resolutionBG;
 let texture, texture2, framebuf, framebuf2;
+let noPainting = true;
 // let batchExport = false;
 // ------------------------------------------------------------
 // Grimoire Animate
@@ -440,8 +441,15 @@ keyDown = function(e) {
             }]);
         }
         // console.log(event.keyCode);
+        // if (e.keyCode == 27 && ge.activeTab !== null) {
+        //     mode = (mode + 1) % 3;
+        // }
         if (e.keyCode == 27 && ge.activeTab !== null) {
-            mode = (mode + 1) % 3;
+            if (noPainting) {
+                mode = (mode + 1) % 2;
+            } else {
+                mode = (mode + 1) % 3;
+            }
         }
         if (mode == 0) {
                 if (vtActive) {
