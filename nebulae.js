@@ -170,7 +170,7 @@ implosion7.update = function(count, alpha = 1) {
     
     let zoom = map(count, 0, 1000, 1, 2);
     // count += 2000;
-    var m = count / 70;
+    var m = -count / 70;
     for (let i = 0; i < this.size; i++) {
         let t = i / 1;
         let x = Math.pow(Math.sin(Math.sin(t + m)), 1) * Math.tan(t + m) * 0.1 * t;
@@ -292,3 +292,239 @@ tancave2.update = function(count, alpha = 1) {
 
 tancave2.displayProgram = drawPointillismBig;
 tancave2.setSize(3000);
+
+if (false) {
+
+tancave2.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    let m = Math.sin((count) / 20000) * 1;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 10;
+        let x = Math.sin(t * (2 + m)) * Math.cos(t * (m / 4)) * 800 * i / 4000;
+        let y = Math.cos(t * (2 + m)) * Math.cos(t * (m / 4)) * 350;
+        this.vertices[i * 3] = y * 0.65e-3 * 4 * (9/16);
+        this.vertices[i * 3 + 1] = x * 1e-3 * 4;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 0.75, 1);
+    }
+};
+
+}
+
+
+let lemonRibbon5 = new Nebula(3000, 3);
+
+lemonRibbon5.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    var m = Math.sin(count / 15000) / 10;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 20;
+        let x = Math.cos(t * (m * 10)) * Math.sin(t) * 600;
+        let y = Math.sin(t * (m * 10)) / Math.sin(t) / Math.cos(t) * 150;
+        this.vertices[i * 3] = x * 0.5e-3 * 3.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 3.1;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0.5);
+    }
+};
+
+lemonRibbon5.displayProgram = drawPointillismBig;
+
+lemonRibbon5.setSize(3000);
+
+
+let selfDigestingCircle = new Nebula(3000, 3);
+
+selfDigestingCircle.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    var m = Math.sin(count / 20000) / 15;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 20;
+        let x = Math.pow(Math.cos(t * (m * 10)), 3) * Math.sin(t) * 550;
+        let y = Math.pow(Math.cos(t * (m * 10)), 10) * Math.cos(t) * 350;
+        this.vertices[i * 3] = x * 0.5e-3 * 3.3 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 0.85, 0.65);
+        this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+selfDigestingCircle.displayProgram = drawPointillismBig;
+
+
+let liquefieur = new Nebula(3000, 3);
+
+liquefieur.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    var m = Math.sin(count / 300) / 5;
+    m = count * 1e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 2;
+        let x = Math.cos(t + (m * 10)) * 250 * t / 1000;
+        let y = Math.sin(t + (m * 40)) * 250;
+        this.vertices[i * 3] = x * 0.5e-3 * 3.3 * 1.3 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5 * 1.3;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 1);
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+liquefieur.displayProgram = drawPointillismBig;
+liquefieur.displayProgram = drawPointillism;
+
+
+
+
+let citronVar1 = new Nebula(3000, 3);
+
+citronVar1.update = function(count, alpha = 1) {
+    // var m = count / 70;
+    // var m = Math.sin((count) / 200) / 25;
+    var m = Math.sin(count / 700) / 5;
+    m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 2;
+        let x = Math.sin(t + (m * 50)) * Math.tan(t + (m * 2)) * 400 * t / 1000;
+        let y = Math.pow(Math.sin(t - (m * 50)), 1) * Math.cos(t) * 350;
+        this.vertices[i * 3] = x * 0.5e-3 * 3.3 * 1.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5 * 1;
+        this.vertices[i * 3 + 2] = map(i, 0, this.size, 1, 0.5);
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+citronVar1.displayProgram = drawPointillismBig;
+
+
+let nouvelleDimension = new Nebula(3000, 3);
+
+nouvelleDimension.update = function(count, alpha = 1) {
+    var m = Math.sin(-count / 700) / 5;
+    m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 2;
+        let x = Math.tan(t + (m * 50)) * 400 * t / 1000;
+        let y = Math.pow(Math.sin(t - (m * 50)), 3) * 350;
+        this.vertices[i * 3] = x * 0.25e-3 * 3.3 * 1.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5 * 1;
+        let a = map(i, 0, this.size, 0, 1);
+        a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+nouvelleDimension.displayProgram = drawPointillismBig;
+
+
+let nouvelleDimension2 = new Nebula(3000, 3);
+
+nouvelleDimension2.update = function(count, alpha = 1) {
+    var m = Math.sin(-count / 700) / 5;
+    m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 2;
+        let x = Math.tan(t + (m * 50)) * 400 * t / 1000;
+        let y = Math.pow(Math.tan(t - (m * 50)), 3) * 350;
+        this.vertices[i * 3] = x * 0.25e-3 * 3.3 * 1.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5 * 1;
+        let a = map(i, 0, this.size, 1, 0);
+        a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+nouvelleDimension2.displayProgram = drawPointillismBig;
+
+
+let plantesFormidables = new Nebula(3000, 3);
+
+plantesFormidables.update = function(count, alpha = 1) {
+    var m = Math.sin(-count / 700) / 5;
+    // m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 100;
+        let x = (Math.sin(t + (m * 50)) * 5) * (Math.cos(t - m) / m) * 400 * t / 1000;
+        let y = Math.pow(Math.tan(t - (m * 50)), 3) * Math.sin(t - m) * 350;
+        this.vertices[i * 3] = x * 0.25e-3 * 3.3 * 1.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 2.5 * 1;
+        let a = map(i, 0, this.size, 1, 0);
+        // a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+plantesFormidables.displayProgram = drawPointillismBig;
+plantesFormidables.setSize(3000)
+
+
+let grandlointain = new Nebula(3000, 3);
+
+grandlointain.update = function(count, alpha = 1) {
+    var m = Math.sin(count / 700) * 2;
+    let z = 20 + Math.sin(m / 10) * 100;
+    // m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 30;
+        let x = Math.asin(constrain((t + m + i / 10000), -1, 1)) * Math.tan(t + m * 15) * Math.cos(t + m) * i / z;
+        let y = Math.asin(constrain((t + m + i / 10000), -1, 1)) * Math.tan(t + m * 15) * Math.sin(t + m) * i / z;
+        this.vertices[i * 3] = x * 0.25e-3 * 16 * 1.1 * (9/16);
+        this.vertices[i * 3 + 1] = y * -1e-3 * 16 * 1;
+        let a = map(i, 0, this.size, 1, 0);
+        // a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+grandlointain.displayProgram = drawPointillismBig;
+grandlointain.setSize(3000)
+
+
+let implosion26 = new Nebula(3000, 3);
+
+implosion26.update = function(count, alpha = 1) {
+    var m = Math.sin(count / 7000) * 2;
+    m = count * 5e-4;
+    m = 254.03;
+    var z = 5 + Math.sin(m / 10) * 100;
+    // m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 30;
+        let x = Math.cos(t + m + i / 10000) * Math.tan(t + m * 15) * Math.cos(t + m + i * 10) * i / z;
+        let y = Math.cos(t + m + i / 10000) * Math.tan(t + m * 15) * Math.sin(t + m + i * 10) * i / z;
+        this.vertices[i * 3] = x * 0.3e-3 * 16 * 1;
+        this.vertices[i * 3 + 1] = y * -1e-3 * 16 * 1;
+        let a = map(i, 0, this.size, 1, 0.5);
+        // a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+implosion26.update = function(count, alpha = 1) {
+    var m = Math.sin(count / 7000) * 2;
+    m = count * 5e-4;
+    m = 254.03;
+    var z = 5 + Math.sin(m / 10) * 100;
+    // m = count * 0.25e-3;
+    for (let i = 0; i < this.size; i++) {
+        let t = i / 30;
+        let b = Math.cos(t + i / 1000 + count * 1e-2);
+        let x = b * Math.cos(t + i * 10) * i;
+        let y = b * Math.sin(t + i * 10) * i;
+        this.vertices[i * 3] = x * 0.3e-3 * 0.2 * 1;
+        this.vertices[i * 3 + 1] = y * -1e-3 * 0.2 * 1;
+        let a = map(i, 0, this.size, 1, 0);
+        a = Math.pow(a * 12, 0.28)*0.5;
+        this.vertices[i * 3 + 2] = a;
+        // this.vertices[i * 3 + 2] = Math.sin(i * 1e-1 + count * 1e-1)*0.5+0.5;
+    }
+};
+
+implosion26.displayProgram = drawPointillismBig;
+implosion26.setSize(5000)

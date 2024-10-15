@@ -318,7 +318,7 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    runXSheet(xSheet);
+    runXSheet(xs);
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
@@ -339,8 +339,8 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    implosion7.update(drawCount);
-    implosion7.display();
+    implosion6.update(drawCount);
+    implosion6.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
