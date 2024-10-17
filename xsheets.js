@@ -61,7 +61,8 @@ xs = {
             var coFade = cosineFade(sum, 200);
             // liquefieur.mix(0, tangentField, 0, coFade);
             // liquefieur.updateAndDisplay(rN);
-            implosion26.updateAndDisplay(rN);
+            // implosion26.updateAndDisplay(rN);
+            nouvelleDimension.updateAndDisplay(rN);
         }
     },
     // cavern2: {

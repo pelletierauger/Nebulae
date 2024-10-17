@@ -339,6 +339,24 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    rosaceConchoid.update(drawCount);
+    rosaceConchoid.display();
+    rosaceConchoid2.update(drawCount);
+    rosaceConchoid2.display();
+    rosaceConchoid3.update(drawCount);
+    rosaceConchoid3.display();
+    // rosaceConchoid4.update(drawCount);
+    // rosaceConchoid4.display();
+    // rosaceConchoid.xFade(drawCount, tancave2, drawCount, 0.2);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
     implosion6.update(drawCount);
     implosion6.display();
     drawTerminal(roundedSquare.program);
