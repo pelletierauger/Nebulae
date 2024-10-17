@@ -726,3 +726,15 @@ rosaceConchoid4.update = function(count, alpha = 1) {
 };
 rosaceConchoid4.displayProgram = drawPointillismBig;
 rosaceConchoid4.setSize(4000);
+
+let pleiades = new Nebula(1, 3);
+
+pleiades.update = function(count, alpha = 1) {
+    for (let i = 0; i < this.size; i++) {
+        this.vertices[i * 3] = 0;
+        this.vertices[i * 3 + 1] = 0;
+        this.vertices[i * 3 + 2] = 1;
+    }
+};
+pleiades.displayProgram = drawPointillismBig;
+pleiades.setSize(1);

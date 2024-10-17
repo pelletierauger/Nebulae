@@ -339,6 +339,17 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    pleiades.update(drawCount);
+    pleiades.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
     rosaceConchoid.update(drawCount);
     rosaceConchoid.display();
     rosaceConchoid2.update(drawCount);
