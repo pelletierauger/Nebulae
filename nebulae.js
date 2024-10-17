@@ -530,7 +530,7 @@ implosion26.displayProgram = drawPointillismBig;
 implosion26.setSize(5000)
 
 
-let rosaceConchoid = new Nebula(3000, 3);
+let rosaceConchoid = new Nebula(2000, 3);
 
 rosaceConchoid.update = function(count, alpha = 1) {
     var m = Math.sin(count / 7000) * 2;
@@ -594,7 +594,7 @@ rosaceConchoid.update = function(count, alpha = 1) {
 rosaceConchoid.displayProgram = drawPointillismBig;
 rosaceConchoid.setSize(2000);
 
-let rosaceConchoid2 = new Nebula(2000, 3);
+let rosaceConchoid2 = new Nebula(700, 3);
 
 rosaceConchoid2.update = function(count, alpha = 1) {
     var m = Math.sin(count / 7000) * 2;
@@ -633,16 +633,11 @@ rosaceConchoid2.setSize(700);
 let rosaceConchoid3 = new Nebula(2000, 3);
 
 rosaceConchoid3.update = function(count, alpha = 1) {
-    var m = Math.sin(count / 7000) * 2;
-    m = count * 5e-4;
-    m = 254.03;
-    var z = 5 + Math.sin(m / 10) * 100;
-    // m = count * 0.25e-3;
     let a = 0.9, e = 0.125, n = 7/4;
     for (let i = 0; i < this.size; i++) {
-        let theta = i / (Math.PI*2*this.size)*250;
-        theta = i / this.size * (Math.PI*2) * 4;
-        let r = a * (1+ e * Math.cos(n * theta)) * 0.2;
+        // let theta = i / (Math.PI*2*this.size)*250;
+        let theta = i / this.size * (Math.PI * 2) * 4;
+        let r = a * (1 + e * Math.cos(n * theta)) * 0.2;
         let x = Math.cos(theta + Math.PI*0.5) * r;
         let y = Math.sin(theta + Math.PI*0.5) * r;
         let al = map(i, 0, this.size, 1, 0.5);
@@ -655,14 +650,43 @@ rosaceConchoid3.update = function(count, alpha = 1) {
         y *= 7;
         // al *= Math.sin(dist(0,0,x, y)*5-count*0.5e-1)*0.5+0.5;
         // if (i % 3 == 0) {
-        x += Math.cos(r*(count*1*r))*0.6;
-        y += Math.sin(r*(count*1*r))*0.6;
+        x += Math.cos((count*0.35+1e6)*r*r)*0.6;
+        y += Math.sin((count*0.35+1e6)*r*r)*0.6;
         // }
         this.vertices[i * 3] = x * (9/16) * (9/16);
         this.vertices[i * 3 + 1] = y;
         this.vertices[i * 3 + 2] = al;
     }
 };
+
+rosaceConchoid3.update = function(count, alpha = 1) {
+    let a = 0.9, e = 0.125, n = 7/4;
+    for (let i = 0; i < this.size; i++) {
+        // let theta = i / (Math.PI*2*this.size)*250;
+        let theta = i / this.size * (Math.PI * 2) * 4;
+        let r = a * (1 + e * Math.cos(n * theta)) * 0.2;
+        let x = Math.cos(theta + Math.PI*0.5) * r;
+        let y = Math.sin(theta + Math.PI*0.5) * r;
+        let al = map(i, 0, this.size, 1, 0.5);
+        // a = Math.pow(a * 12, 0.28)*0.5;
+        // this.vertices[i * 3 + 2] = 0.75;
+        al = map(Math.sin(theta*0.25+count*1e-2), -1, 1, 0.1, 1);
+        al = Math.pow(al*12, 0.28) * 0.45;
+        // al = map(Math.sin(theta * 5e-2 + count * 0.75e-1),-1,1,0.5,1)*0.75;
+        x *= 7;
+        y *= 7;
+        // al *= Math.sin(dist(0,0,x, y)*5-count*0.5e-1)*0.5+0.5;
+        // if (i % 3 == 0) {
+        x += Math.cos((count*0.35+1e6)*r*r)*0.6;
+        y += Math.sin((count*0.35+1e6)*r*r)*0.6;
+        // }
+        al *= 1.0-Math.pow(dist(0,0,x,y),2) * 0.125;
+        this.vertices[i * 3] = x * (9/16) * (9/16);
+        this.vertices[i * 3 + 1] = y;
+        this.vertices[i * 3 + 2] = al;
+    }
+};
+
 rosaceConchoid3.displayProgram = drawPointillismBig;
 rosaceConchoid3.setSize(3000);
 
