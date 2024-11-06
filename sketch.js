@@ -350,6 +350,23 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    // galaxy.update(drawCount);
+    galaxy.display();
+    galaxy3.display();
+    // galaxy2.update(drawCount);
+    galaxy2.display();
+    
+    // galaxy4.update(drawCount);
+    // galaxy4.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
     rosaceConchoid.update(drawCount);
     rosaceConchoid.display();
     rosaceConchoid2.update(drawCount);
@@ -364,6 +381,20 @@ draw = function() {
         frameExport();
     }
     drawCount++;
+};
+
+seqCount = 0, seqCountInc = 0.25;
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    diagram001.update(drawCount);
+    diagram001.display();
+    // diagram001.xFade(drawCount, simpleChaoticSpiral, drawCount, 0.2);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+    seqCount += seqCountInc;
 };
 
 draw = function() {
@@ -388,6 +419,15 @@ if (false) {
 
 socket.off('receiveOSC');
 socket.on('receiveOSC', receiveOSC);
+
+
+receiveOSC = function(s) {
+    // logJavaScriptConsole(s);
+    // console.log(s);
+    if (s.address == "/eval") {
+        eval(s.args[0].value);
+    }
+};
 
 }
 

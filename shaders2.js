@@ -1230,3 +1230,281 @@ pointillismBig.fragText = `
     // endGLSL
 `;
 pointillismBig.init();
+
+
+let diagramDots = new ShaderProgram("diagram-dots");
+
+
+// For diagrams
+// if (false) {
+
+diagramDots.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float alpha;
+    vec2 hash(vec2 p) {
+      p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+      return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+    }
+    float noise( in vec2 p ) {
+        const float K1 = 0.366025404; // (sqrt(3)-1)/2;
+        const float K2 = 0.211324865; // (3-sqrt(3))/6;
+        vec2  i = floor(p + (p.x + p.y) * K1 );
+        vec2  a = p - i + (i.x + i.y) * K2;
+        float m = step(a.y, a.x); 
+        vec2  o = vec2(m, 1.0 - m);
+        vec2  b = a - o + K2;
+        vec2  c = a - 1.0 + 2.0 * K2;
+        vec3  h = max(0.5 - vec3(dot(a,a), dot(b,b), dot(c,c)), 0.0);
+        vec3  n = h * h * h * h * vec3(dot(a, hash(i + 0.0)), dot(b, hash(i + o)), dot(c, hash(i + 1.0)));
+        return dot(n, vec3(70.0));
+    }
+    float multiLevelNoise(vec2 uv, float time) {
+        vec2 p = uv + vec2(10., 0.);
+        vec2 muv = uv + vec2(0., time * 2e-2);
+        float f = 0.0;
+        // left: value noise  
+        muv *= 2.0;
+        mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+        f  = 0.5000 * noise(muv);
+        // muv = m * uv;
+        // f += 0.2500 * noise(muv);
+        // muv = m * uv;
+        // f += 0.1250 * noise(muv);
+        // muv = m * uv;
+        // f += 0.0625 * noise(muv);
+        f = 0.5 + 0.5 * f;
+        f *= smoothstep(0.0, 0.005, abs(p.x - 0.5));
+        return f;
+    }
+    void main(void) {
+        alpha = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        pos.x *= 9./16.;
+        pos *= 0.9;
+        gl_Position = vec4(pos.x, pos.y, 0.0, 1.);
+        // float f = multiLevelNoise(pos.xy, time * 4e-1);
+        // gl_PointSize = 15. + 125.0 * alpha * f;
+        gl_PointSize = 75.0 * alpha;
+        // gl_PointSize = 15.0;
+    }
+    // endGLSL
+`;
+diagramDots.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float alpha;
+    ${mapFunction}
+    ${rand}
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float rando = rand(pos);
+        float x = length(pos);
+        float smoothDist = pow(x - 1.01, 60.);
+        smoothDist = max(smoothDist, pow(x, 0.015) * -1. + 1.01);
+        float xx = (x > 0.25) ? 0.: 1.;
+        smoothDist = max(smoothDist, pow(x * 4. -1., 4.) * 0.5 * xx);
+        smoothDist = max(smoothDist, pow((x - 0.01), 0.07) * -1. + 0.94);
+        smoothDist = max(smoothDist, x * -0.1 + 0.065);
+        smoothDist = max(smoothDist, (x - 0.165) * -1.5);
+        smoothDist = max(smoothDist, (x * -10.) + 0.63);
+        smoothDist = max(smoothDist, (x * -0.9) + 0.19);
+        float dist = smoothDist;
+        if (alpha > 0.9) {
+            dist = 1. / x * 0.01;
+        }
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        dist = pow(dist, 1.4);
+        dist -= rando * 0.01;
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha);
+    }
+    // endGLSL
+`;
+diagramDots.init();
+
+// A fluctuating version
+diagramDots.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float alpha;
+    vec2 hash(vec2 p) {
+      p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+      return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+    }
+    float noise( in vec2 p ) {
+        const float K1 = 0.366025404; // (sqrt(3)-1)/2;
+        const float K2 = 0.211324865; // (3-sqrt(3))/6;
+        vec2  i = floor(p + (p.x + p.y) * K1 );
+        vec2  a = p - i + (i.x + i.y) * K2;
+        float m = step(a.y, a.x); 
+        vec2  o = vec2(m, 1.0 - m);
+        vec2  b = a - o + K2;
+        vec2  c = a - 1.0 + 2.0 * K2;
+        vec3  h = max(0.5 - vec3(dot(a,a), dot(b,b), dot(c,c)), 0.0);
+        vec3  n = h * h * h * h * vec3(dot(a, hash(i + 0.0)), dot(b, hash(i + o)), dot(c, hash(i + 1.0)));
+        return dot(n, vec3(70.0));
+    }
+    float multiLevelNoise(vec2 uv, float time) {
+        vec2 p = uv + vec2(10., 0.);
+        vec2 muv = uv + vec2(0., time * 2e-2);
+        float f = 0.0;
+        // left: value noise  
+        muv *= 1.5;
+        mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+        f  = 0.5000 * noise(muv);
+        // muv = m * uv;
+        // f += 0.2500 * noise(muv);
+        // muv = m * uv;
+        // f += 0.1250 * noise(muv);
+        // muv = m * uv;
+        // f += 0.0625 * noise(muv);
+        f = 0.5 + 0.5 * f;
+        f *= smoothstep(0.0, 0.005, abs(p.x - 0.5));
+        return f;
+    }
+    void main(void) {
+        alpha = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        pos.x *= 9./16.;
+        pos *= 0.9;
+        float f = multiLevelNoise(pos.xy, time * 0.25)-0.5;
+        float f2 = multiLevelNoise(pos.xy+vec2(10.,10.), time * 0.25)-0.5;
+        gl_Position = vec4(pos.x+f*0.075*0., pos.y+f2*0.075*0.+sin(time*3e-3)*0., 0.0, 1.);
+        gl_PointSize = 15. + 75.0 * alpha * (f+0.5);
+        // gl_PointSize = 75.0 * alpha;
+        // gl_PointSize = 15.0;
+        alpha *= (f+0.5);
+    }
+    // endGLSL
+`;
+diagramDots.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float alpha;
+    ${mapFunction}
+    ${rand}
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float rando = rand(pos);
+        float x = length(pos);
+        float smoothDist = pow(x - 1.01, 60.);
+        smoothDist = max(smoothDist, pow(x, 0.015) * -1. + 1.01);
+        float xx = (x > 0.25) ? 0.: 1.;
+        smoothDist = max(smoothDist, pow(x * 4. -1., 4.) * 0.5 * xx);
+        smoothDist = max(smoothDist, pow((x - 0.01), 0.07) * -1. + 0.94);
+        smoothDist = max(smoothDist, x * -0.1 + 0.065);
+        smoothDist = max(smoothDist, (x - 0.165) * -1.5);
+        smoothDist = max(smoothDist, (x * -10.) + 0.63);
+        smoothDist = max(smoothDist, (x * -0.9) + 0.19);
+        float dist = smoothDist;
+        if (alpha > 0.9) {
+            dist = 1. / x * 0.01;
+        }
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        // dist *= min(1., (x * 4. - 2.) * -1.);
+        // dist = pow(dist, 1.4);
+        dist -= rando * 0.01;
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha);
+    }
+    // endGLSL
+`;
+diagramDots.init();
+
+if (false) {
+
+// A fluctuating version, darker
+diagramDots.vertText = `
+    // beginGLSL
+    ${pi}
+    attribute vec3 coordinates;
+    uniform float time;
+    varying float alpha;
+    vec2 hash(vec2 p) {
+      p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+      return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+    }
+    float noise( in vec2 p ) {
+        const float K1 = 0.366025404; // (sqrt(3)-1)/2;
+        const float K2 = 0.211324865; // (3-sqrt(3))/6;
+        vec2  i = floor(p + (p.x + p.y) * K1 );
+        vec2  a = p - i + (i.x + i.y) * K2;
+        float m = step(a.y, a.x); 
+        vec2  o = vec2(m, 1.0 - m);
+        vec2  b = a - o + K2;
+        vec2  c = a - 1.0 + 2.0 * K2;
+        vec3  h = max(0.5 - vec3(dot(a,a), dot(b,b), dot(c,c)), 0.0);
+        vec3  n = h * h * h * h * vec3(dot(a, hash(i + 0.0)), dot(b, hash(i + o)), dot(c, hash(i + 1.0)));
+        return dot(n, vec3(70.0));
+    }
+    float multiLevelNoise(vec2 uv, float time) {
+        vec2 p = uv + vec2(10., 0.);
+        vec2 muv = uv + vec2(0., time * 2e-2);
+        float f = 0.0;
+        // left: value noise  
+        muv *= 1.5;
+        mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+        f  = 0.5000 * noise(muv);
+        // muv = m * uv;
+        // f += 0.2500 * noise(muv);
+        // muv = m * uv;
+        // f += 0.1250 * noise(muv);
+        // muv = m * uv;
+        // f += 0.0625 * noise(muv);
+        f = 0.5 + 0.5 * f;
+        f *= smoothstep(0.0, 0.005, abs(p.x - 0.5));
+        return f;
+    }
+    void main(void) {
+        alpha = coordinates.z;
+        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
+        pos.x *= 9./16.;
+        pos *= 0.9;
+        float f = multiLevelNoise(pos.xy, time * 0.25)-0.5;
+        float f2 = multiLevelNoise(pos.xy+vec2(10.,10.), time * 0.25)-0.5;
+        gl_Position = vec4(pos.x+f*0.075, pos.y+f2*0.075+sin(time*3e-3)*0., 0.0, 1.);
+        gl_PointSize = 45. + 175.0 * alpha * f;
+        // gl_PointSize = 75.0 * alpha;
+        // gl_PointSize = 15.0;
+        alpha *= (f+0.5);
+    }
+    // endGLSL
+`;
+diagramDots.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying float alpha;
+    ${mapFunction}
+    ${rand}
+    void main(void) {
+        vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+        float rando = rand(pos);
+        float x = length(pos);
+        float smoothDist = pow(x - 1.01, 60.);
+        smoothDist = max(smoothDist, pow(x, 0.015) * -1. + 1.01);
+        float xx = (x > 0.25) ? 0.: 1.;
+        smoothDist = max(smoothDist, pow(x * 4. -1., 4.) * 0.5 * xx);
+        smoothDist = max(smoothDist, pow((x - 0.01), 0.07) * -1. + 0.94);
+        smoothDist = max(smoothDist, x * -0.1 + 0.065);
+        smoothDist = max(smoothDist, (x - 0.165) * -1.5);
+        smoothDist = max(smoothDist, (x * -10.) + 0.63);
+        smoothDist = max(smoothDist, (x * -0.9) + 0.19);
+        float dist = smoothDist;
+        if (alpha > 0.9) {
+            dist = 1. / x * 0.01;
+        }
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        // dist = pow(dist, 1.4);
+        dist -= rando * 0.01;
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha);
+    }
+    // endGLSL
+`;
+diagramDots.init();
+
+}
