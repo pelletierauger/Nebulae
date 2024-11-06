@@ -11,7 +11,7 @@ cloudyPoints.vertText = `
         alpha = coordinates.z;
         vec4 pos = vec4(coordinates.xyz, 1.0);
         // pos.x *= 16./9.;
-        pos = translate(0., 0., 2.) * yRotate(time*0.25e-2) * xRotate(time*0.25e-2) * pos;
+        pos = translate(0., 0., 2.) * yRotate(time*5e-4) * xRotate(time*5e-4) * pos;
         // pos =  * pos;
         gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
         gl_PointSize = 256.0;
@@ -52,7 +52,7 @@ cloudyPoints2.vertText = `
         alpha = coordinates.z;
         vec4 pos = vec4(coordinates.xyz, 1.0);
         // pos.x *= 16./9.;
-        pos = translate(0., 0., 2.) * yRotate(time*0.25e-2) * xRotate(time*0.25e-2) * pos;
+        pos = translate(0., 0., 2.) * yRotate(time*5e-4) * xRotate(time*5e-4) * pos;
         // pos =  * pos;
         gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
         gl_PointSize = 256.0;
@@ -75,7 +75,7 @@ cloudyPoints2.fragText = `
         x = max(0., x) * max(0., x);
         // x += floor(x+1.)-floor(x+0.99);
         // gl_FragColor = vec4(vec3(1., 0., x).gbr, x*0.125);
-        gl_FragColor = vec4(hueShift(vec3(1., 0., x), 4.5), x*0.125);
+        gl_FragColor = vec4(hueShift(vec3(1., 0., x), 3.9), x*0.125*0.75);
     }
     // endGLSL
 `;
@@ -142,14 +142,25 @@ cloudyPointsSmall.vertText = `
     uniform float time;
     varying float alpha;
     varying float flip;
+    float usin(float t) {
+        return sin(t)*0.5+0.5;
+    }    
+    float ucos(float t) {
+        return cos(t)*0.5+0.5;
+    }
     void main(void) {
         vec4 pos = vec4(coordinates.xyz, 1.0);
         // pos.x *= 16./9.;
-        flip = (cos(pos.x * 1423.543)+1.25) > sin(pos.z * 112400.1412) ? 0.0 : 1.0;
-        pos = translate(0., 0., 2.) * yRotate(time*0.25e-2) * xRotate(time*0.25e-2) * pos;
+        flip = (cos(pos.x * 1423.543)+1.85) > sin(pos.z * 112400.1412) ? 0.0 : 1.0;
+        vec3 pos2 = pos.xyz;
+        pos = translate(0., 0., 2.) * yRotate(time*5e-4) * xRotate(time*5e-4) * pos;
         alpha = 2.0-pos.z * 0.8;
+        pos.x *= 9./16.;
         gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
-        gl_PointSize = 75.0 * alpha;
+        gl_PointSize = 75.0 * alpha * alpha * 0.5;
+        // gl_PointSize *= 3.0-length(pos2);
+        float t = time*0.05;
+        gl_PointSize += sin(pos.x*10.+t) * cos(pos.y*10.+t) * cos(pos.z*10.+t)*120.;
         // gl_PointSize = 15.0;
     }
     // endGLSL
@@ -181,10 +192,11 @@ cloudyPointsSmall.fragText = `
         }
         dist *= min(1., (x * 4. - 2.) * -1.);
         dist -= rando * 0.01;
-        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha);
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha * 0.5);
         if (flip == 1.) {
             // gl_FragColor.rgb = gl_FragColor.gbr;
-            gl_FragColor.rgb = hueShift(gl_FragColor.rgb, 3.5);
+            // gl_FragColor.rgb = hueShift(gl_FragColor.rgb, 3.5);
+            // gl_FragColor.a *= 0.75;
         }
     }
     // endGLSL
@@ -236,9 +248,19 @@ galaxy2.update = function(count, alpha = 1) {
     }
 };
 
-galaxy2.displayProgram = drawCloudySmall;
-galaxy2.setSize(3000); galaxy2.update(1);
+galaxy2.update = function(count, alpha = 1) {
+    let t = count * 1e-1;
+    let x = 1, y = 1, a = 0, fx = 1, fy = 1;
+    for (let i = 0; i < this.size; i += 1) {
+        let s = randomPointInSphere();
+        this.vertices[i * 3] = s[0]*2.5;
+        this.vertices[i * 3 + 1] = s[1]*2.5;
+        this.vertices[i * 3 + 2] = s[2]*2.5;
+    }
+};
+galaxy2.setSize(14500); galaxy2.update(1);
 
+galaxy2.displayProgram = drawCloudySmall;
 
 let galaxy4 = new Nebula(150, 3);
 
@@ -246,9 +268,21 @@ galaxy4.update = function(count, alpha = 1) {
     let t = count * 1e-1;
     let x = 1, y = 1, a = 0, fx = 1, fy = 1;
     for (let i = 0; i < this.size; i += 1) {
+        // let s = randomPointOnSphere();
         this.vertices[i * 3] = Math.cos(i * 4e-2) * i * 1e-3;
         this.vertices[i * 3 + 1] = Math.cos(this.vertices[i * 3]*10)*0.1;
         this.vertices[i * 3 + 2] = Math.sin(i * 4e-2) * i * 1e-3;
+    }
+};
+
+galaxy4.update = function(count, alpha = 1) {
+    let t = count * 1e-1;
+    let x = 1, y = 1, a = 0, fx = 1, fy = 1;
+    for (let i = 0; i < this.size; i += 1) {
+        let s = randomPointOnSphere();
+        this.vertices[i * 3] = s[0];
+        this.vertices[i * 3 + 1] = s[1];
+        this.vertices[i * 3 + 2] = s[2];
     }
 };
 galaxy4.setSize(3000); galaxy4.update(1);
