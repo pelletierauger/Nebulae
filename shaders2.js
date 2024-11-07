@@ -1508,3 +1508,109 @@ diagramDots.fragText = `
 diagramDots.init();
 
 }
+
+let smoothRay3D = new ShaderProgram("smooth-ray-3D");
+
+// The correct 3d version that preserves the glow while rotating
+smoothRay3D.vertText = `
+    // beginGLSL
+    #define pi 3.1415926535897932384626433832795
+    attribute float index;
+    attribute vec3 coordinatesA;
+    attribute vec3 coordinatesB;
+    attribute vec4 color;
+    attribute float width;
+    attribute vec2 uv;
+    uniform vec2 resolution;
+    uniform float time;
+    varying vec4 c;
+    varying vec2 uvs;
+    varying vec2 wh;
+    varying float t;
+    varying float flip;
+    ${mapFunction}
+    ${matrixTransforms}
+    void main(void) {
+        float ratio = (resolution.y / resolution.x);
+        vec2 pos = vec2(0., 0.);
+        vec4 pos0 = vec4(coordinatesA, 1.);
+        flip = (cos(pos0.x * 1423.543)+0.85) > sin(pos0.z * 112400.1412) ? 0.0 : 1.0;
+        pos0 = translate(0., 0., 2.) * yRotate(time*5e-4) * xRotate(time*5e-4) * pos0;
+        pos0.xy = pos0.xy / pos0.z;
+        float angle = coordinatesB.x - time * 0.25e-2;
+        float rayLength = coordinatesB.y;
+        vec2 pos1 = vec2(pos0.x + cos(angle) * rayLength, pos0.y + sin(angle) * rayLength);
+        pos0.xy = vec2(pos0.x + cos(angle + pi) * rayLength, pos0.y + sin(angle + pi) * rayLength);
+        float a = atan(pos1.y - pos0.y, pos1.x - pos0.x);
+        float pi75 = pi * 0.75;
+        float pi25 = pi * 0.25;
+        if (index == 0.) {
+            pos = pos0.xy + vec2(cos(a + pi75), sin(a + pi75)) * width;
+        } else if (index == 1.) {
+            pos = pos0.xy + vec2(cos(a - pi75), sin(a - pi75)) * width;
+        } else if (index == 2.) {
+            pos = pos1.xy + vec2(cos(a - pi25), sin(a - pi25)) * width;
+        } else if (index == 3.) {
+            pos = pos1.xy + vec2(cos(a + pi25), sin(a + pi25)) * width;
+        }
+        pos.x *= ratio;
+        gl_Position = vec4(pos.x, pos.y, 0.0, 1.);
+        wh = vec2(width * sin(pi75), length(pos1.xy - pos0.xy));
+        c = color;
+        uvs = uv;
+        t = time;
+    }
+    // endGLSL
+`;
+smoothRay3D.fragText = `
+    // beginGLSL
+    precision mediump float;
+    varying vec4 c;
+    varying vec2 uvs;
+    varying vec2 wh;
+    varying float t;
+    varying float flip;
+    ${blendingMath}
+    float rand(vec2 co){
+        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453 * (2.0 + sin(co.x)));
+    }
+    float map(float value, float min1, float max1, float min2, float max2) {
+        return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+    }
+    void main(void) {
+        vec2 fc = gl_FragCoord.xy;
+        vec2 pos = gl_PointCoord;
+        float dist = abs(uvs.y*2.-1.)* -1. + 1.;
+        float distX = 1.0 - (abs(uvs.x*2.-1.)* -1. + 1.);
+        dist = 1.0 -(abs(uvs.x*2.-1.)* -1. + 1.);
+        dist = 1. / dist * 0.1;
+        float x = 1.0 - (abs(uvs.x*2.-1.)* -1. + 1.);
+        float smoothDist = pow(x - 1.01, 60.);
+        smoothDist = max(smoothDist, pow(x, 0.015) * -1. + 1.01);
+        float xx = (x > 0.25) ? 0.: 1.;
+        smoothDist = max(smoothDist, pow(x * 4. -1., 4.) * 0.5 * xx);
+        smoothDist = max(smoothDist, pow((x - 0.01), 0.07) * -1. + 0.94);
+        smoothDist = max(smoothDist, x * -0.1 + 0.065);
+        smoothDist = max(smoothDist, (x - 0.165) * -1.5);
+        smoothDist = max(smoothDist, (x * -10.) + 0.63);
+        smoothDist = max(smoothDist, (x * -0.9) + 0.19);
+        dist = smoothDist;
+        // float foldedY = uvs.y * 0.75 + 0.25;
+        float distY = (abs(uvs.y*2.-1.)* -1. + 1.) * 0.95;
+        // distY = uvs.y;
+        // distY = 1. / distY * 0.01;
+        // distY = min(0.2, distY);
+        dist *= pow(distY, 7.);
+        dist *= min(1., (x * 4. - 2.) * -1.);
+        // dist *= min(1., (distX * 2. - 2.) * -1.);
+        // dist = distY;
+        gl_FragColor = vec4(vec3(1., 0., dist), dist * c.a);
+        if (flip == 1.) {
+            // gl_FragColor.rgb = gl_FragColor.gbr;
+            gl_FragColor.rgb = hueShift(gl_FragColor.rgb, -3.);
+            gl_FragColor.a *= 0.25;
+        }
+    }
+    // endGLSL
+`;
+smoothRay3D.init();

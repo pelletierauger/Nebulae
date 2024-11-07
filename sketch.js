@@ -350,14 +350,12 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    // galaxy.update(drawCount);
     galaxy.display();
     galaxy3.display();
-    // galaxy2.update(drawCount);
+    currentProgram = getProgram("smooth-ray-3D");
+    gl.useProgram(currentProgram);
+    draw3DLines();
     galaxy2.display();
-    
-    // galaxy4.update(drawCount);
-    // galaxy4.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
