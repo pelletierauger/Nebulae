@@ -203,7 +203,8 @@ cloudyPointsSmall.fragText = `
         if (size < 50.) {
             // dist = 1.0 - length(pos*20.);
         }
-        dist -= rando * 0.01;
+        // dist -= rando * 0.01;
+        dist = max(0.0, dist - rando * 0.01);
         gl_FragColor = vec4(vec3(1., 0., dist), dist * alpha * alpha * 0.75);
         if (flip == 1.) {
             // gl_FragColor.rgb = gl_FragColor.gbr;
