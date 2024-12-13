@@ -237,6 +237,26 @@ function setup() {
     });
 }
 
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    bindFrameBuffer(texture, framebuf);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    // divineSpiral.update(drawCount);
+    // divineSpiral.display();
+    simpleChaoticSpiral.update(drawCount);
+    simpleChaoticSpiral.display();
+    // divineSpiral.xFade(drawCount, simpleChaoticSpiral, drawCount, Math.sin(drawCount*1e-2)*0.5+0.5);
+    // drawVertexID(mysticalPond.program, 90000);
+    // drawVertexID(witchyTerrain.program, 442368);
+    // drawVertexID(witchyTerrain.program, 200000);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    drawTexture(textureShader.program, texture);
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);

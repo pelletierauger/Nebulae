@@ -4,6 +4,24 @@ simpleChaoticSpiral.update = function(count, alpha = 1) {
     let t = count * 1e-1;
     let x = 1, y = 1, a = 0, fx = 1, fy = 1;
     for (let i = 0; i < 75000; i += 1) {
+        a = Math.tan(i * 1e1) + i * 1e-4 - t * 0.1;
+        x = Math.sin(a) * i * 0.5e-4;
+        y = Math.cos(a) * i * 1.5e-4;
+        x += Math.sin(fx * 4 + fy * 2) * 0.1;
+        y += Math.sin(fy * 4 + fy * 2) * 0.1;
+        fx = x;
+        fy = y;
+        // dotPositions.push(x * 0.18, y * 0.18, alpha);
+        this.vertices[i * 3] = x * 0.18;
+        this.vertices[i * 3 + 1] = -y * 0.18;
+        this.vertices[i * 3 + 2] = alpha;
+    }
+};
+
+simpleChaoticSpiral.update = function(count, alpha = 1) {
+    let t = count * 1e-1;
+    let x = 1, y = 1, a = 0, fx = 1, fy = 1;
+    for (let i = 0; i < 75000; i += 1) {
         a = Math.tan(i * 1e2) + i * 1e-5 + t * 0.1;
         x = Math.sin(a) * i * 0.5e-4;
         y = Math.cos(a) * i * 1.5e-4;
