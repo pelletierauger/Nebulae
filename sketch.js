@@ -241,6 +241,35 @@ draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     bindFrameBuffer(texture, framebuf);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    // rosaceConchoid.update(drawCount);
+    // rosaceConchoid.display();
+    // rosaceConchoid2.update(drawCount);
+    // rosaceConchoid2.display();
+    // rosaceConchoid3.update(drawCount);
+    // rosaceConchoid3.display();
+    implosion6.update(drawCount);
+    implosion6.display();
+        // galaxy.display();
+    // galaxy3.display();
+    // currentProgram = getProgram("smooth-ray-3D");
+    // gl.useProgram(currentProgram);
+    // draw3DLines();
+    // galaxy2.display();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    bindFrameBuffer(texture2, framebuf2);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    drawTerminal(roundedSquare.program);
+    blendTextures(texture, framebuf, texture2, framebuf2);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    bindFrameBuffer(texture, framebuf);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     // divineSpiral.update(drawCount);
     // divineSpiral.display();
     simpleChaoticSpiral.update(drawCount);
@@ -361,6 +390,26 @@ draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     pleiades.update(drawCount);
     pleiades.display();
+    drawTerminal(roundedSquare.program);
+    if (exporting && exportCount < batchMax) {
+        frameExport();
+    }
+    drawCount++;
+};
+
+draw = function() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    
+        // simpleChaoticSpiral.update(drawCount);
+    // simpleChaoticSpiral.display();
+        // rosaceConchoid.update(drawCount);
+    // rosaceConchoid.display();
+    // rosaceConchoid2.update(drawCount);
+    // rosaceConchoid2.display();
+    rosaceConchoid3.update(drawCount);
+    rosaceConchoid3.display();
+        snake.update(drawCount);
+    snake.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();

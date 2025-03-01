@@ -756,3 +756,41 @@ pleiades.update = function(count, alpha = 1) {
 };
 pleiades.displayProgram = drawPointillismBig;
 pleiades.setSize(1);
+
+let snake = new Nebula(1, 3);
+
+snake.update = function(count, alpha = 1) {
+    for (let i = 0; i < this.size; i++) {
+        this.vertices[i * 3] = i*0.0075;
+        this.vertices[i * 3 + 1] = (i%2==0)?0:0.0075;
+        this.vertices[i * 3 + 2] = 0.125*1.5;
+    }
+};
+snake.update = function(count, alpha = 1) {
+    let oneD = function(x, y) {return x + (y * 250)};
+    for (let y = 0; y < 6; y++) {
+        // let iy = [0,5,1,4,2,3][y];
+        let iy = [5,0,4,1,3,2][y];
+        let ny = iy / 5;
+        for (let x = 0; x < 250; x++) {
+            let nx = x / 249;
+            let head = Math.sin(Math.min(1.,Math.max(0.,(nx-0.95)*20.))*Math.PI)*0.5;
+            let i = oneD(x,iy);
+            let newX = x*0.02-2.5;
+            newX -= Math.sin(ny * Math.PI)*0.02;
+            let newY = y*0.02+((x%2==0)?0.:0.02*0.5);
+            newY -= 6*0.02/2;
+            newY *= Math.sin(nx * Math.PI) + head;
+            newY += Math.sin(newX*5+drawCount*0.05)*0.1;
+            let newW = 0.125;
+            newW *= (Math.sin(nx * Math.PI)+head)*0.5+0.5; 
+            newW *= Math.sin(ny * Math.PI)*1+1;
+            this.vertices[i * 3] = newX * 0.5;
+            this.vertices[i * 3 + 1] = newY * 0.5;
+            this.vertices[i * 3 + 2] = newW * 0.75;
+        }
+    }
+};
+snake.displayProgram = drawSnake;
+// snake.setSize(24);
+snake.setSize(6*250);
