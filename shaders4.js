@@ -240,18 +240,19 @@ let snakeScale = new ShaderProgram("snake-scale");
 snakeScale.vertText = `
     // beginGLSL
     ${pi}
-    attribute vec3 coordinates;
+    attribute vec4 coordinates;
     uniform float time;
     varying float alpha;
     varying float t;
-    varying vec2 posUnit;
+    varying vec3 posUnit;
     void main(void) {
         alpha = coordinates.z;
         t = time;
-        vec4 pos = vec4(coordinates.xy, 1.0, 1.0);
-        posUnit = pos.xy;
+        vec4 pos = vec4(coordinates.xyw, 1.0);
+        posUnit = pos.xyz;
         pos.x *= 9./16.;
-        gl_Position = vec4(pos.x, pos.y, 0.0, 1.);
+        // gl_Position = vec4(pos.x, pos.y, 0.0, 1.);
+        gl_Position = vec4(pos.x, pos.y, 0.0, pos.z);
         gl_PointSize = 125.0 * alpha;
         // gl_PointSize = 15.0;
     }
@@ -262,10 +263,11 @@ snakeScale.fragText = `
     precision mediump float;
     varying float alpha;
     varying float t;
-    varying vec2 posUnit;
+    varying vec3 posUnit;
     ${mapFunction}
     ${rand}
     ${pi}
+    ${blendingMath}
     vec2 rotateUV(vec2 uv, float rotation, float mid) {
         return vec2(
           cos(rotation) * (uv.x - mid) + sin(rotation) * (uv.y - mid) + mid,
@@ -293,15 +295,18 @@ snakeScale.fragText = `
         // x = 1./x;
         x = smoothstep(0., 1., x);
         gl_FragColor = vec4(vec3(x,0.,pow(x,6.)*0.5),al);
-        gl_FragColor.r += pow(alpha*4.*(1.*(sin(posUnit.x*3.+t*0.1)*0.5+0.5)),3.)*5.;
-        gl_FragColor.b += pow(alpha*4.*(1.*(sin(posUnit.x*3.+t*0.1)*0.5+0.5)),7.)*5.;
+        gl_FragColor.r += pow(alpha*4.*(1.*(sin(posUnit.x*1.123e6+alpha*332123.+t*0.05)*0.5+0.5)),3.)*5.;
+        gl_FragColor.b += pow(alpha*4.*(1.*(sin(posUnit.x*1.123e6+alpha*332123.+t*0.05)*0.5+0.5)),7.)*5.;
+        gl_FragColor.r += pow(alpha*4.*(1.*(sin(posUnit.x*4.+t*0.1)*0.5+0.5)),3.)*3.;
+        gl_FragColor.b += pow(alpha*4.*(1.*(sin(posUnit.x*4.+t*0.1)*0.5+0.5)),7.)*3.;
         // gl_FragColor.a = 1.;
         gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_FragColor.rgb * alpha * 4. * al, 0.25);
         float shine = map(sin(posUnit.x*3.+t*0.1),-1., 1., 0., 1.);
-        gl_FragColor.rgb *= map(sin(posUnit.x*200.),-1.,1.,0.6,1.);
-        gl_FragColor.rgb *= map(cos(posUnit.x*500.),-1.,1.,0.6, 1.);
-        gl_FragColor.b += map(cos(posUnit.x*500.+11245125.),-1.,1.,0., 1.)*0.25*al;
+        gl_FragColor.rgb *= map(sin((alpha*32100.)*200.),-1.,1.,0.6,1.);
+        gl_FragColor.rgb *= map(cos((alpha*32100.)*12532.),-1.,1.,0.6, 1.);
+        gl_FragColor.b += map(cos((alpha*32100.)*500.+11245125.),-1.,1.,0., 1.)*0.25*al;
         // gl_FragColor.rgb = gl_FragColor.brg;
+        // gl_FragColor.rgb = hueShift(gl_FragColor.rgb, pi * 1.);
     }
     // endGLSL
 `;

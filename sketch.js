@@ -399,17 +399,16 @@ draw = function() {
 
 draw = function() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    
-        // simpleChaoticSpiral.update(drawCount);
+    // simpleChaoticSpiral.update(drawCount);
     // simpleChaoticSpiral.display();
-        // rosaceConchoid.update(drawCount);
-    // rosaceConchoid.display();
     // rosaceConchoid2.update(drawCount);
     // rosaceConchoid2.display();
     rosaceConchoid3.update(drawCount);
     rosaceConchoid3.display();
-        snake.update(drawCount);
+    snake.update(drawCount);
     snake.display();
+    // rosaceConchoid.update(drawCount);
+    // rosaceConchoid.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
