@@ -796,3 +796,29 @@ snake.update = function(count, alpha = 1) {
 snake.displayProgram = drawSnake;
 // snake.setSize(24);
 snake.setSize(6*250);
+
+let pleiadesEye = new Nebula(1, 4);
+
+pleiadesEye.displayProgram = drawSnakeEye;
+
+pleiadesEye.update = function(count, alpha = 1) {
+    let x = 245;
+    let y = 2;
+    let nx = x / 249;
+    let iy = [5,0,4,1,3,2][y];
+    let ny = iy / 5;
+    let head = Math.sin(Math.min(1.,Math.max(0.,(nx-0.95)*20.))*Math.PI)*0.5;
+    let newX = x*0.02-2.5;
+    // newX = 0;
+    let newY = iy*0.02+((x%2==0)?0.:0.02*0.5);
+    newY -= 6*0.02/2;
+    newY *= Math.sin(nx * Math.PI) + head;
+    newY += Math.sin(newX*5+drawCount*0.05)*0.1;
+    // console.log(newX);
+    for (let i = 0; i < this.size; i++) {
+        this.vertices[i * 4] = newX * 0.5;
+        this.vertices[i * 4 + 1] = newY * 0.5;
+        this.vertices[i * 4 + 2] = 1-Math.sin(ny * Math.PI)*0.05 * Math.sin(nx * Math.PI);
+        this.vertices[i * 4 + 3] = 1;
+    }
+};

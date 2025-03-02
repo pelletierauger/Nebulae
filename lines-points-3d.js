@@ -217,6 +217,19 @@ drawSnake = function(v) {
     gl.drawArrays(gl.POINTS, 0, v.length / 4);
 };
 
+drawSnakeEye = function(v) {
+    let currentProgram = snakeEye.program;
+    gl.useProgram(currentProgram);
+    gl.bindBuffer(gl.ARRAY_BUFFER, dots_buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+    var coord = gl.getAttribLocation(currentProgram, "coordinates");
+    gl.vertexAttribPointer(coord, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(coord);
+    let timeUniformLocation = gl.getUniformLocation(currentProgram, "time");
+    gl.uniform1f(timeUniformLocation, drawCount);
+    gl.drawArrays(gl.POINTS, 0, v.length / 4);
+};
+
 drawCloudy = function(v) {
     let currentProgram = cloudyPoints.program;
     gl.useProgram(currentProgram);

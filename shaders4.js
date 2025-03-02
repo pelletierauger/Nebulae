@@ -294,6 +294,10 @@ snakeScale.fragText = `
         x = max(0., x);
         // x = 1./x;
         x = smoothstep(0., 1., x);
+        float eyeGlow = pow(max(0.,(abs(((posUnit.x-0.699)-0.5)*2.)*-1.+1.)),3.);
+                // gl_FragColor.rgb *= vec3(pow(max(0.,posUnit.x),3.));
+                // x += (pow(max(0.,posUnit.x),3.))*0.25;
+        x += eyeGlow*0.5;
         gl_FragColor = vec4(vec3(x,0.,pow(x,6.)*0.5),al);
         gl_FragColor.r += pow(alpha*4.*(1.*(sin(posUnit.x*1.123e6+alpha*332123.+t*0.05)*0.5+0.5)),3.)*5.;
         gl_FragColor.b += pow(alpha*4.*(1.*(sin(posUnit.x*1.123e6+alpha*332123.+t*0.05)*0.5+0.5)),7.)*5.;
@@ -306,6 +310,7 @@ snakeScale.fragText = `
         gl_FragColor.rgb *= map(cos((alpha*32100.)*12532.),-1.,1.,0.6, 1.);
         gl_FragColor.b += map(cos((alpha*32100.)*500.+11245125.),-1.,1.,0., 1.)*0.25*al;
         // gl_FragColor.rgb = gl_FragColor.brg;
+                        // gl_FragColor.rgb = vec3();
         // gl_FragColor.rgb = hueShift(gl_FragColor.rgb, pi * 1.);
     }
     // endGLSL

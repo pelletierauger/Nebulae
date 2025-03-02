@@ -407,6 +407,8 @@ draw = function() {
     rosaceConchoid3.display();
     snake.update(drawCount);
     snake.display();
+    pleiadesEye.update(drawCount);
+    pleiadesEye.display();
     // rosaceConchoid.update(drawCount);
     // rosaceConchoid.display();
     drawTerminal(roundedSquare.program);
