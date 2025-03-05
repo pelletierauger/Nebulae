@@ -409,8 +409,8 @@ draw = function() {
     snake.display();
     pleiadesEye.update(drawCount);
     pleiadesEye.display();
-    // rosaceConchoid.update(drawCount);
-    // rosaceConchoid.display();
+    rosaceConchoid.update(drawCount);
+    rosaceConchoid.display();
     drawTerminal(roundedSquare.program);
     if (exporting && exportCount < batchMax) {
         frameExport();
